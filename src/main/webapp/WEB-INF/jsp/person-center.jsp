@@ -189,53 +189,17 @@
 
             personInfo();
 
-            $("#li-address").click(addressManagement());
+            $("#li-address").click(function () {
+                addressManagement();
+            });
 
-            $("#li-basic-info").click(personInfo());
+            $("#li-basic-info").click(function () {
+                personInfo();
+            });
 
+            //添加地址按钮点击事件
             $('#btn-add-address').click(function () {
-//                $("#modal-update-person-info div.modal-body").html("添加地址操作");
-//                $("#modal-update-person-info").modal('show');
-                var appendHtml="<tr>"+
-                        "<td>&rightrightarrows;</td>"+
-                        "<td><input type='text' class='form-control' id='address-name' required/></td>"+
-                        "<td><input type='text' class='form-control' id='address-phone' required/></td>"+
-                        "<td><input type='text' class='form-control' id='address-post-code' required/></td>"+
-                        "<td><input type='text' class='form-control' id='address-detail' required/></td>"+
-                        "<td><button class=\"btn btn-primary btn-address-confirm-add\">确定</button></td><td><button class=\"btn btn-danger btn-address-cancel-add\">取消</button></td>"+
-                    "</tr>";
-                $("#address table tbody").append(appendHtml);
-                $("#btn-address-confirm-add").click(function () {
-                    var name=$("#address-name").val();
-                    var phone=$("#address-phone").val();
-                    var postCode=$("#address-post-code").val();
-                    var address=$("#address-detail").val();
-                    $.ajax({
-                        url:"addAddress.do",
-                        type:"post",
-                        dataType:"json",
-                        data:{
-                            name:name,
-                            phone:phone,
-                            postCode:postCode,
-                            address:address
-                        },
-                        success:function (responseText,statusText) {
-                            if(responseText.success==true){
-                                $("#modal-update-person-info div.modal-body").html("添加成功");
-                                $("#modal-update-person-info").modal('show');
-                                $("#li-address").click();
-                            }else{
-                                $("#modal-update-person-info div.modal-body").html("添加失败");
-                                $("#modal-update-person-info").modal('show');
-                            }
-                        },
-                        error:function (XMLHttpRequest,textStatus) {
-                            $("#modal-update-person-info div.modal-body").html("添加失败");
-                            $("#modal-update-person-info").modal('show');
-                        }
-                    });
-                });
+                addAddress();
             });
         });
 
@@ -302,34 +266,11 @@
                         }
 
                         $("button.btn-address-update").click(function () {
-                            $("#modal-update-person-info div.modal-body").html("修改地址操作");
-                            $("#modal-update-person-info").modal('show');
+                            updateAddress(this);
                         });
 
                         $("button.btn-address-delete").click(function () {
-                            var trSelected=$(this).parent().parent();
-                            $.ajax({
-                                url:"deleteAddress.do",
-                                type:"post",
-                                dataType:"json",
-                                data:{
-                                    aid:trSelected.find("input[type='hidden']").val()
-                                },
-                                success:function (responseText,statusText) {
-                                    if(responseText.success==true){
-                                        $("#modal-update-person-info div.modal-body").html("删除成功");
-                                        $("#modal-update-person-info").modal('show');
-                                        $("#li-address").click();
-                                    }else{
-                                        $("#modal-update-person-info div.modal-body").html("删除失败");
-                                        $("#modal-update-person-info").modal('show');
-                                    }
-                                },
-                                error:function (XMLHttpRequest,textStatus) {
-                                    $("#modal-update-person-info div.modal-body").html("删除失败");
-                                    $("#modal-update-person-info").modal('show');
-                                }
-                            });
+                            deleteAddress(this);
                         });
 
                     }
@@ -342,7 +283,6 @@
 
         //修改用户信息
         function updatePersonInfo() {
-//        alert("updatePersonInfo");
             $.ajax({
                 url:"updatePersonInfo.do",
                 type:"post",
@@ -406,6 +346,141 @@
             }
         }
 
+        //添加收货地址
+        function addAddress() {
+            var appendHtml="<tr>"+
+                "<td>&rightrightarrows;</td>"+
+                "<td><input type='text' class='form-control' id='address-name' required/></td>"+
+                "<td><input type='text' class='form-control' id='address-phone' required/></td>"+
+                "<td><input type='text' class='form-control' id='address-post-code' required/></td>"+
+                "<td><input type='text' class='form-control' id='address-detail' required/></td>"+
+                "<td><button class=\"btn btn-primary btn-address-confirm-add\">确定</button></td><td><button class=\"btn btn-danger btn-address-cancel-add\">取消</button></td>"+
+                "</tr>";
+            $("#address table tbody").append(appendHtml);
+            $(".btn-address-confirm-add").click(function () {
+                addConfirmAddress();
+            });
+            $(".btn-address-cancel-add").click(function () {
+                addCancelAddress(this);
+            });
+        }
+        //添加地址确认按钮
+        function addConfirmAddress() {
+            var name=$("#address-name").val();
+            var phone=$("#address-phone").val();
+            var postCode=$("#address-post-code").val();
+            var address=$("#address-detail").val();
+            $.ajax({
+                url:"addAddress.do",
+                type:"post",
+                dataType:"json",
+                data:{
+                    name:name,
+                    phone:phone,
+                    postCode:postCode,
+                    address:address
+                },
+                success:function (responseText,statusText) {
+                    if(responseText.success==true){
+                        $("#modal-update-person-info div.modal-body").html("添加成功");
+                        $("#modal-update-person-info").modal('show');
+                        $("#li-address").click();
+                    }else{
+                        $("#modal-update-person-info div.modal-body").html("添加失败");
+                        $("#modal-update-person-info").modal('show');
+                    }
+                },
+                error:function (XMLHttpRequest,textStatus) {
+                    $("#modal-update-person-info div.modal-body").html("添加失败");
+                    $("#modal-update-person-info").modal('show');
+                }
+            });
+        }
+        //添加地址取消按钮
+        function addCancelAddress(obj) {
+            $(obj).parent().parent().remove();
+        }
+        
+        
+        //删除收货地址
+        function deleteAddress(obj) {
+            var trSelected=$(obj).parent().parent();
+            $.ajax({
+                url:"deleteAddress.do",
+                type:"post",
+                dataType:"json",
+                data:{
+                    aid:trSelected.find("input[type='hidden']").val()
+                },
+                success:function (responseText,statusText) {
+                    if(responseText.success==true){
+                        $("#modal-update-person-info div.modal-body").html("删除成功");
+                        $("#modal-update-person-info").modal('show');
+                        $("#li-address").click();
+                    }else{
+                        $("#modal-update-person-info div.modal-body").html("删除失败");
+                        $("#modal-update-person-info").modal('show');
+                    }
+                },
+                error:function (XMLHttpRequest,textStatus) {
+                    $("#modal-update-person-info div.modal-body").html("删除失败");
+                    $("#modal-update-person-info").modal('show');
+                }
+            });
+        }
+        //修改收货地址
+        function updateAddress(obj) {
+            var trSelected=$(obj).parent().parent();
+            var tds=trSelected.children("td:gt(0):lt(4)");
+            for(var i=0;i<$(tds).length;i++){
+                $(tds[i]).html("<input type='text' class='form-control' value='"+$(tds[i]).html()+"'/>");
+            }
+            trSelected.children().children("button.btn-address-update").replaceWith("<button class='btn btn-primary btn-address-update-confirm'>确定</button>");
+            $("button.btn-address-update-confirm").click(function () {
+                updateConfirmAddress(this);
+            });
+        }
+        //修改收货地址确定按钮
+        function updateConfirmAddress(obj) {
+            var trSelected=$(obj).parent().parent();
+            var tds=trSelected.children("td:lt(5)");
+//            alert($(tds[0]).html());
+//            var aid=$(tds[0]).children("input").val();
+//            var name=$(tds[1]).children("input").val();
+//            var phone=$(tds[2]).children("input").val();
+//            var postCode=$(tds[3]).children("input").val();
+//            var address=$(tds[4]).children("input").val();
+//            alert(aid+" "+name+" "+phone+" "+postCode+" "+address);
+//            return false;
+            $.ajax({
+                url:"updateAddress.do",
+//                url:"test.do",
+                type:"post",
+                dataType:"json",
+                data:{
+                    aid:$(tds[0]).children("input").val(),
+                    name:$(tds[1]).children("input").val(),
+                    phone:$(tds[2]).children("input").val(),
+                    postCode:$(tds[3]).children("input").val(),
+                    address:$(tds[4]).children("input").val()
+                },
+                success:function (responseText,statusText) {
+                    if(responseText.success==true){
+                        $("#modal-update-person-info div.modal-body").html("修改成功");
+                        $("#modal-update-person-info").modal('show');
+                    }else{
+                        $("#modal-update-person-info div.modal-body").html("修改失败");
+                        $("#modal-update-person-info").modal('show');
+                    }
+                    $("#li-address").click();
+                },
+                error:function (XMLHttpRequest,textStatus) {
+                    $("#modal-update-person-info div.modal-body").html("修改失败");
+                    $("#modal-update-person-info").modal('show');
+                    $("#li-address").click();
+                }
+            });
+        }
     </script>
 </body>
 </html>

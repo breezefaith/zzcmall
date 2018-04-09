@@ -23,4 +23,12 @@
         INSERT INTO address(uid,name,phone,post_code,address)
         VALUES (#{uid},#{name},#{phone},#{post_code},#{address})
     </insert>
+
+    <update id="updateAddress">
+        UPDATE address
+        SET
+        name=#{name},phone=#{phone},post_code=#{post_code},address=#{address}
+        WHERE
+        aid=#{aid}
+    </update>
 </mapper>

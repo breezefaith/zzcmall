@@ -168,4 +168,14 @@ public class UserController extends AbstractController {
         response.setContentType("text/json;charset=utf-8");
         response.getWriter().write(JSONUtil.parseJSONString(responseVo));
     }
+
+    @RequestMapping("updateAddress.do")
+    public void updateAddress(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+        ResponseVo responseVo = new ResponseVo();
+        String token = session.getAttribute("token").toString();
+        boolean result=addressService.updateAddress(token,Integer.valueOf(request.getParameter("aid")),request.getParameter("name"),request.getParameter("phone"),request.getParameter("postCode"),request.getParameter("address"));
+        setRequestResult(responseVo,result);
+        response.setContentType("text/json;charset=utf-8");
+        response.getWriter().write(JSONUtil.parseJSONString(responseVo));
+    }
 }

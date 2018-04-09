@@ -49,4 +49,19 @@ public class AddressServiceImpl implements IAddressService {
         }
         return false;
     }
+
+    @Override
+    public boolean updateAddress(String token, Integer aid,String name, String phone, String postCode, String address) throws IOException {
+        if(aid!=null&&name!=null&&phone!=null&&postCode!=null&&address!=null){
+            Jedis jedis=jedisPool.getResource();
+            User user=(User)JSONUtil.parseObject(jedis.get(token),User.class);
+            if(addressDao.updateAddress(aid,name,phone,postCode,address)==true){
+                user.setAddresses(addressDao.findByUid(user.getUid()));
+                //redis层做修改
+                jedis.set(token,JSONUtil.parseJSONString(user));
+                return true;
+            }
+        }
+        return false;
+    }
 }

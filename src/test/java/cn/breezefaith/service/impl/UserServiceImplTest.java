@@ -57,16 +57,4 @@ public class UserServiceImplTest {
 //        System.out.println(userService.isLogged(token));
     }
 
-    @Test
-    public void deleteAddress() throws Exception{
-//        String token=userService.login("admin","admin");
-//        System.out.println(userService.deleteAddress(token,7));
-//        userService.logout(token);
-    }
-
-    @Test
-    public void addAddress() throws Exception{
-//        String token=userService.login("admin","admin");
-//        System.out.println(userService.addAddress(token,"test","18251958027","210000","testAddress"));
-    }
 }

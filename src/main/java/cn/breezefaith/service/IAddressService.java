@@ -7,4 +7,5 @@ public interface IAddressService {
 
     boolean addAddress(String token, String name, String phone, String postCode, String address) throws IOException;
 
+    boolean updateAddress(String token, Integer aid,String name, String phone, String postCode, String address) throws IOException;
 }

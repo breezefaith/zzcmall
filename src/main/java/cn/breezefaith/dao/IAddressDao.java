@@ -12,4 +12,6 @@ public interface IAddressDao {
     int deleteByAid(@Param("aid")Integer aid);
     List<Address> findByUid(@Param("uid")Integer uid);
     boolean addAddress(@Param("uid") Integer uid, @Param("name") String name, @Param("phone") String phone, @Param("post_code") String postCode, @Param("address") String address);
+
+    boolean updateAddress(@Param("aid") Integer aid, @Param("name") String name,@Param("phone") String phone, @Param("post_code") String postCode, @Param("address") String address);
 }
