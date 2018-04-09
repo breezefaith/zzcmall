@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="zzcmall:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="zzcmall.war">
+      <element id="artifact" artifact-name="zzcmall:war exploded" />
+    </root>
+  </artifact>
+</component>

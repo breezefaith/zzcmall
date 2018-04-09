@@ -1,0 +1,13 @@
+body{
+    background: #eee !important;
+    padding-top: 60px;
+    padding-bottom: 30px;
+}
+
+.div-main-right{
+    min-height:400px;
+    background-color:#fff;
+    padding-top:10px;
+    border: 1px #D6DAD6;
+    border-radius: 4px 4px 4px 4px;
+}
