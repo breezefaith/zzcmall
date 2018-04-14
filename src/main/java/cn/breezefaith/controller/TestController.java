@@ -12,12 +12,7 @@ public class TestController extends AbstractController {
 
     @RequestMapping("/test.do")
     public String test(HttpServletRequest request){
-        try {
-            request.setAttribute("itemListInRedis",itemService.findAllInRedis());
-        } catch (IOException e) {
-            e.printStackTrace();
-            request.setAttribute("itemListInRedis",null);
-        }
+        request.setAttribute("itemListInRedis",itemService.findAllInRedis());
         return "test";
     }
 

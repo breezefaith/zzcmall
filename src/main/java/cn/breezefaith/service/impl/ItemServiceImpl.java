@@ -5,14 +5,13 @@ import cn.breezefaith.entity.Item;
 import cn.breezefaith.service.IItemService;
 import cn.breezefaith.util.ImageUtil;
 import cn.breezefaith.util.JSONUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service("itemService")
@@ -42,12 +41,7 @@ public class ItemServiceImpl implements IItemService {
     @Override
     public List<Item> findAllInRedis(){
         Jedis jedis=jedisPool.getResource();
-        try {
-            return (List<Item>)JSONUtil.parseObject(jedis.get("items"),LinkedList.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return (List<Item>)JSONUtil.decode(jedis.get("items"), new TypeReference<List<Item>>() {});
     }
 
     @Override

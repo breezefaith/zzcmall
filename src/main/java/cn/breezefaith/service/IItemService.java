@@ -2,7 +2,6 @@ package cn.breezefaith.service;
 
 import cn.breezefaith.entity.Item;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface IItemService {
@@ -10,7 +9,7 @@ public interface IItemService {
 
     List<Item> findAllWithRedis();
 
-    List<Item> findAllInRedis() throws IOException;
+    List<Item> findAllInRedis();
 
     byte[] getImage(String key);
 }
