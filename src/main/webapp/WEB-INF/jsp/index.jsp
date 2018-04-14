@@ -1,4 +1,5 @@
-<%--
+<%@ page import="cn.breezefaith.entity.Item" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: breezefaith
   Date: 2018/2/27
@@ -69,28 +70,49 @@
             </ul>
         </div>
         <div class="col-md-10">
-            <div class="col-sm-6 col-md-3">
-                <div class="thumbnail">
-                    <img src="image/logo.png"
-                         alt="通用的占位符缩略图">
-                    <div class="caption">
-                        <h3>缩略图标签</h3>
-                        <p>一些示例文本。一些示例文本。</p>
-                        <p>
-                            <a href="#" class="btn btn-primary" role="button">
-                                按钮
-                            </a>
-                            <a href="#" class="btn btn-default" role="button">
-                                按钮
-                            </a>
-                        </p>
+
+                <%
+                for (Item item:(List<Item>) request.getAttribute("itemList")){%>
+                    <%--<div class="col-sm-6 col-md-3">--%>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="thumbnail" >
+                            <img style="height: 30%;width: 90%;" src="<%=item.getItemImage()%>" alt="商品图片">
+                            <div class="caption">
+                                <h4><%=item.getItemName()%></h4>
+                                <%--<p><%=item.getItemDescription()%></p>--%>
+                                <p>
+                                    <a href="#" class="btn btn-default" role="button">
+                                    <%=item.getItemCategory()%>
+                                    </a>
+                                    <a href="#" class="btn btn-default" role="button">
+                                    ￥<%=item.getItemPrice()%>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                <%}%>
+                <%--<div class="thumbnail">--%>
+                    <%--<img src="image/logo.png"--%>
+                         <%--alt="通用的占位符缩略图">--%>
+                    <%--<div class="caption">--%>
+                        <%--<h3>缩略图标签</h3>--%>
+                        <%--<p>一些示例文本。一些示例文本。dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>--%>
+                        <%--<p>--%>
+                            <%--<a href="#" class="btn btn-primary" role="button">--%>
+                                <%--按钮--%>
+                            <%--</a>--%>
+                            <%--<a href="#" class="btn btn-default" role="button">--%>
+                                <%--按钮--%>
+                            <%--</a>--%>
+                        <%--</p>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
         </div>
     </div>
     <div class="row-fluid">
-        <footer class="footer navbar-fixed-bottom ">
+        <%--<footer class="footer navbar-fixed-bottom ">--%>
+        <footer class="footer">
             <div class="center-block" style="text-align: center;">
                 Designed By ZZCoder
             </div>
@@ -114,6 +136,8 @@
             }
         });
     });
+
+
 </script>
 </body>
 </html>
