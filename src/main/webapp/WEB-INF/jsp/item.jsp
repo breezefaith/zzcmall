@@ -16,6 +16,10 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
+    <!--自定义js文件-->
+    <script src="js/basic.js" type="text/javascript"></script>
+
+
     <link rel="stylesheet" href="css/item.css">
 </head>
 <body>
@@ -24,12 +28,12 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a href="#" class="navbar-brand navbar-left">
-                <img src="image/logo2.png" style="max-width:100px;margin-top:-4px;"/>
+                <img src="image/logo2.png" style="max-width:100px;margin-top:-4px;cursor: pointer;" href="index.do"/>
             </a>
         </div>
         <div>
             <ul class="nav navbar-nav">
-                <li class=""><a href="#">全部</a></li>
+                <li class=""><a href="index.do">全部</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         分类
@@ -45,7 +49,7 @@
                         <li><a href="#">另一个分离的链接</a></li>
                     </ul>
                 </li>
-                <li><a href="#">购物车</a></li>
+                <li><a href="cart.do">购物车</a></li>
                 <li><a href="#">订单</a></li>
             </ul>
         </div>
@@ -158,20 +162,7 @@
 
 <script>
     $(function () {
-        $.ajax({
-            url:'isLogged.do',
-            type:'get',
-            dataType:"json",
-            success:function (responseText,statusText) {
-                if(responseText.success==true){
-                    $("div.login-state").html("<a class='navbar-text login-or-person' href='person-center.do'>"+responseText.data.username+"</a><a class='navbar-text register-or-logout' href='logout.do'>注销</a>");
-                    $("span.span-log-status").html("<a href='person-center.do'>"+responseText.data.username+"</a><a href='logout.do'>注销</a>");
-                }
-            },
-            error:function (XMLHttpRequest,textStatus) {
-
-            }
-        });
+        isLogged();
     });
     
     function addToCart() {
@@ -194,6 +185,25 @@
             error:function (XMLHttpRequest,textStatus) {
                 $("#modal-info div.modal-body").html("添加失败");
                 $("#modal-info").modal('show');
+            }
+        });
+    }
+
+    function isLogged() {
+        $.ajax({
+            url:'isLogged.do',
+            type:'get',
+            dataType:"json",
+            success:function (responseText,statusText) {
+                if(responseText.success==true){
+                    $("div.login-state").html("<a class='navbar-text login-or-person' href='person-center.do'>"+responseText.data.username+"</a><a class='navbar-text register-or-logout' href='logout.do'>注销</a>");
+                    $("span.span-log-status").html("<a href='person-center.do'>"+responseText.data.username+"</a><a href='logout.do'>注销</a>");
+                }else{
+                    window.location.href="login-page.do";
+                }
+            },
+            error:function (XMLHttpRequest,textStatus) {
+
             }
         });
     }

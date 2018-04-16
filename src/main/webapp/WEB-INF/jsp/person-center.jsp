@@ -45,7 +45,7 @@
                         <li><a href="#">另一个分离的链接</a></li>
                     </ul>
                 </li>
-                <li><a href="#">购物车</a></li>
+                <li><a href="cart.do">购物车</a></li>
                 <li><a href="#">订单</a></li>
             </ul>
         </div>

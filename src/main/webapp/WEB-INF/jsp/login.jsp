@@ -44,7 +44,7 @@
                         $("span.span-error-note:first").remove();
                         $("input:first").before("<span class='span-error-note' style='color:red;'>用户名或密码错误</span>");
                     }else{
-                        window.location.href="index.do";
+                        self.location = document.referrer;
                     }
                 },
                 error:function (XMLHttpRequest, textStatus, errorThrown) {

@@ -16,6 +16,7 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script src="js/jquery.form.min.js"></script>
+
     <style type="text/css">
         body{
             padding-top: 60px;
@@ -28,12 +29,12 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a href="#" class="navbar-brand navbar-left">
-                <img src="image/logo2.png" style="max-width:100px;margin-top:-4px;"/>
+                <img src="image/logo2.png" style="max-width:100px;margin-top:-4px;cursor: pointer;" href="index.do"/>
             </a>
         </div>
         <div>
             <ul class="nav navbar-nav">
-                <li class=""><a href="#">全部</a></li>
+                <li class=""><a href="index.do">全部</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         分类
@@ -49,7 +50,7 @@
                         <li><a href="#">另一个分离的链接</a></li>
                     </ul>
                 </li>
-                <li><a href="#">购物车</a></li>
+                <li><a href="cart.do">购物车</a></li>
                 <li><a href="#">订单</a></li>
             </ul>
         </div>
@@ -121,6 +122,12 @@
 </div>
 <script>
     $(function () {
+        isLogged();
+        $("div.div-item").click(function () {
+            window.open("item.do?itemId="+$(this).children("div.div-item input[type='hidden']").val());
+        });
+    });
+    function isLogged() {
         $.ajax({
             url:'isLogged.do',
             type:'get',
@@ -135,14 +142,7 @@
 
             }
         });
-
-        $("div.div-item").click(function () {
-            window.open("item.do?itemId="+$("div.div-item input[type='hidden']").val());
-        });
-    });
-
-
-
+    }
 </script>
 </body>
 </html>

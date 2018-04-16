@@ -26,4 +26,8 @@ public interface Cons {
         int REQUEST_SUCCESS_CODE=0;
         String REQUEST_SUCCESS_MESSAGE="请求成功";
     }
+
+    public interface Cart {
+        int TIME_OUT=86400;
+    }
 }

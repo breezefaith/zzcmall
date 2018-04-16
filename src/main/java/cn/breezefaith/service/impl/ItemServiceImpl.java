@@ -1,5 +1,6 @@
 package cn.breezefaith.service.impl;
 
+import cn.breezefaith.constant.Cons;
 import cn.breezefaith.dao.IItemDao;
 import cn.breezefaith.entity.Item;
 import cn.breezefaith.service.IItemService;
@@ -79,15 +80,16 @@ public class ItemServiceImpl implements IItemService {
     }
 
     @Override
-    public boolean addToCart(String itemId) {
+    public boolean addToCart(String token, String itemId) {
         Jedis jedis=jedisPool.getResource();
         try{
-            if(jedis.get("cart")==null){
-                jedis.set("cart",JSONUtil.parseJSONString(new ArrayList<Item>()));
+            if(jedis.get("cart"+token)==null){
+                jedis.set("cart"+token,JSONUtil.parseJSONString(new ArrayList<Item>()));
             }
-            List<Item> cart=JSONUtil.decode(jedis.get("cart"), new TypeReference<List<Item>>() {});
-            cart.add((Item)JSONUtil.parseObject(jedis.get("item"+itemId),Item.class));
-            jedis.set("cart",JSONUtil.parseJSONString(cart));
+            List<Item> cart=JSONUtil.decode(jedis.get("cart"+token), new TypeReference<List<Item>>() {});
+            cart.add(findById(itemId));
+            jedis.set("cart"+token,JSONUtil.parseJSONString(cart));
+            jedis.expire("cart"+token, Cons.Cart.TIME_OUT);
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -98,5 +100,24 @@ public class ItemServiceImpl implements IItemService {
             }
         }
 
+    }
+
+    @Override
+    public List<Item> getCart(String token) {
+        Jedis jedis=jedisPool.getResource();
+        try{
+            if(jedis.get("cart"+token)==null){
+                jedis.set("cart"+token,JSONUtil.parseJSONString(new ArrayList<Item>()));
+            }
+            List<Item> cart=JSONUtil.decode(jedis.get("cart"+token), new TypeReference<List<Item>>() {});
+            return cart;
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ArrayList<Item>(0);
+        }finally {
+            if(jedis!=null){
+                jedisPool.returnResource(jedis);
+            }
+        }
     }
 }

@@ -38,4 +38,9 @@ public class ItemServiceImplTest {
     public void findById() throws Exception{
 //        System.out.println(itemService.findById("1"));
     }
+
+    @Test
+    public void addToCart() throws Exception{
+//        System.out.println(itemService.addToCart("1"));
+    }
 }

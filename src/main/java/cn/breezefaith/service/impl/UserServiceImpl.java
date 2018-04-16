@@ -172,6 +172,7 @@ public class UserServiceImpl implements IUserService {
     public void logout(String token) {
         Jedis jedis=jedisPool.getResource();
         jedis.del(token);
+        jedis.del("cart"+token);
         if(jedis!=null){
             jedisPool.returnResource(jedis);
         }

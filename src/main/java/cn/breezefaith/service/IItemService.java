@@ -17,5 +17,7 @@ public interface IItemService {
 
     String getItemList();
 
-    boolean addToCart(String itemId);
+    boolean addToCart(String token, String itemId);
+
+    List<Item> getCart(String token);
 }
