@@ -1,27 +1,21 @@
-<%@ page import="cn.breezefaith.entity.Item" %>
-<%@ page import="java.util.List" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: breezefaith
-  Date: 2018/2/27
-  Time: 13:07
+  Date: 2018/4/15
+  Time: 8:12
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>ZZCMall</title>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <title>商品详情</title>
     <link rel='stylesheet prefetch' href='css/bootstrap.min.css'>
     <link rel="stylesheet" href="css/login.css">
     <script src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.form.min.js"></script>
-    <style type="text/css">
-        body{
-            padding-top: 60px;
-            padding-bottom: 30px;
-        }
-    </style>
+
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -71,47 +65,9 @@
         </div>
         <div class="col-md-10">
 
-                <%
-                for (Item item:(List<Item>) request.getAttribute("itemList")){%>
-                    <%--<div class="col-sm-6 col-md-3">--%>
-                    <div class="col-sm-6 col-md-3">
-                        <div class="thumbnail div-item" style="cursor:pointer;">
-                            <input type="hidden" value="<%=item.getIid()%>">
-                            <img style="height: 30%;width: 90%;" src="<%=item.getItemImage()%>" alt="商品图片">
-                            <div class="caption">
-                                <h4><%=item.getItemName()%></h4>
-                                <p>
-                                    <a href="#" class="btn btn-default" role="button">
-                                    <%=item.getItemCategory()%>
-                                    </a>
-                                    <a href="#" class="btn btn-default" role="button">
-                                    ￥<%=item.getItemPrice()%>
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                <%}%>
-                <%--<div class="thumbnail">--%>
-                    <%--<img src="image/logo.png"--%>
-                         <%--alt="通用的占位符缩略图">--%>
-                    <%--<div class="caption">--%>
-                        <%--<h3>缩略图标签</h3>--%>
-                        <%--<p>一些示例文本。一些示例文本。dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>--%>
-                        <%--<p>--%>
-                            <%--<a href="#" class="btn btn-primary" role="button">--%>
-                                <%--按钮--%>
-                            <%--</a>--%>
-                            <%--<a href="#" class="btn btn-default" role="button">--%>
-                                <%--按钮--%>
-                            <%--</a>--%>
-                        <%--</p>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
         </div>
     </div>
     <div class="row-fluid">
-        <%--<footer class="footer navbar-fixed-bottom ">--%>
         <footer class="footer">
             <div class="center-block" style="text-align: center;">
                 Designed By ZZCoder
@@ -119,6 +75,29 @@
         </footer>
     </div>
 </div>
+
+<!--模态框设计-->
+<div>
+    <div class="modal fade" id="modal-update-person-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        提示
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(function () {
         $.ajax({
@@ -135,14 +114,8 @@
 
             }
         });
-
-        $("div.div-item").click(function () {
-            window.open("item.do?itemId="+$("div.div-item input[type='hidden']").val());
-        });
     });
-
-
-
 </script>
+
 </body>
 </html>

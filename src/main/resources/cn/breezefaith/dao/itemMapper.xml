@@ -13,4 +13,8 @@
     <select id="findAll" resultMap="itemMap">
         SELECT * FROM item
     </select>
+
+    <select id="findById" resultMap="itemMap">
+        SELECT * FROM item WHERE iid=#{itemId}
+    </select>
 </mapper>

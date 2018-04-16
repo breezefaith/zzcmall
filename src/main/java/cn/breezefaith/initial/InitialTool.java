@@ -29,7 +29,7 @@ public class InitialTool {
 
         jedis.set("items", JSONUtil.parseJSONString(items));
         for (Item item:items){
-            jedis.set("image"+item.getIid(), ImageUtil.getBinaryString(item.getItemImage()));
+            jedis.set("image"+item.getIid(), ImageUtil.encodeImgageToBase64(item.getItemImage()));
         }
     }
 }

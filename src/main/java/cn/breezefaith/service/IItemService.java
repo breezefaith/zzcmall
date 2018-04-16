@@ -12,4 +12,10 @@ public interface IItemService {
     List<Item> findAllInRedis();
 
     byte[] getImage(String key);
+
+    Item findById(String itemId);
+
+    String getItemList();
+
+    boolean addToCart(String itemId);
 }

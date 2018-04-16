@@ -12,6 +12,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("itemService")
@@ -35,18 +36,67 @@ public class ItemServiceImpl implements IItemService {
             jedis.set("item"+item.getIid().toString(), JSONUtil.parseJSONString(item));
             jedis.set("itemImage"+item.getIid().toString(), ImageUtil.getBinaryString(item.getItemImage()));
         }
+        if(jedis!=null){
+            jedisPool.returnResource(jedis);
+        }
         return items;
     }
 
     @Override
     public List<Item> findAllInRedis(){
         Jedis jedis=jedisPool.getResource();
-        return (List<Item>)JSONUtil.decode(jedis.get("items"), new TypeReference<List<Item>>() {});
+        List<Item> items=(List<Item>)JSONUtil.decode(jedis.get("items"), new TypeReference<List<Item>>() {});
+        if(jedis!=null){
+            jedisPool.returnResource(jedis);
+        }
+        return items;
+
     }
 
     @Override
     public byte[] getImage(String key) {
         Jedis jedis=jedisPool.getResource();
-        return ImageUtil.getBinaryBytes(jedis.get(key));
+        byte[] imageStream=ImageUtil.getBinaryBytes(jedis.get(key));
+        if(jedis!=null){
+            jedisPool.returnResource(jedis);
+        }
+        return imageStream;
+    }
+
+    @Override
+    public Item findById(String itemId) {
+        return itemDao.findById(itemId);
+    }
+
+    @Override
+    public String getItemList() {
+        Jedis jedis=jedisPool.getResource();
+        String items=jedis.get("items");
+        if(jedis!=null){
+            jedisPool.returnResource(jedis);
+        }
+        return items;
+    }
+
+    @Override
+    public boolean addToCart(String itemId) {
+        Jedis jedis=jedisPool.getResource();
+        try{
+            if(jedis.get("cart")==null){
+                jedis.set("cart",JSONUtil.parseJSONString(new ArrayList<Item>()));
+            }
+            List<Item> cart=JSONUtil.decode(jedis.get("cart"), new TypeReference<List<Item>>() {});
+            cart.add((Item)JSONUtil.parseObject(jedis.get("item"+itemId),Item.class));
+            jedis.set("cart",JSONUtil.parseJSONString(cart));
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }finally {
+            if(jedis!=null){
+                jedisPool.returnResource(jedis);
+            }
+        }
+
     }
 }

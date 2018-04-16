@@ -3,8 +3,9 @@ package cn.breezefaith.util;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-import java.io.IOException;
-import java.io.InputStream;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -53,4 +54,46 @@ public class ImageUtil {
         }
 
     }
+
+
+    /**
+     * 将网络图片进行Base64位编码
+     *
+     * @param imageUrl
+     *            图片的url路径，如http://.....xx.jpg
+     * @return
+     */
+    public static String encodeImgageToBase64(String imageUrl) {// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
+        ByteArrayOutputStream outputStream = null;
+        try {
+            URL url=new URL(imageUrl);
+            BufferedImage bufferedImage = ImageIO.read(url);
+            outputStream = new ByteArrayOutputStream();
+            String imgType=imageUrl.substring(imageUrl.lastIndexOf(".")+1);
+            ImageIO.write(bufferedImage, imgType, outputStream);
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return encoder.encode(outputStream.toByteArray());// 返回Base64编码过的字节数组字符串
+    }
+
+    /**
+     * 将Base64位编码的图片进行解码，并保存到指定目录
+     *
+     * @param base64String
+     *            base64编码的图片信息
+     * @return
+     */
+    public static byte[] decodeBase64ToImage(String base64String) {
+        try {
+            byte[] decoderBytes = decoder.decodeBuffer(base64String);
+            return decoderBytes;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

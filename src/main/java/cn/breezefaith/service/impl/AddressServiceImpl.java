@@ -29,7 +29,13 @@ public class AddressServiceImpl implements IAddressService {
                 user.setAddresses(addressDao.findByUid(user.getUid()));
                 //redis层做修改
                 jedis.set(token,JSONUtil.parseJSONString(user));
+                if(jedis!=null){
+                    jedisPool.returnResource(jedis);
+                }
                 return true;
+            }
+            if(jedis!=null){
+                jedisPool.returnResource(jedis);
             }
         }
         return false;
@@ -44,7 +50,13 @@ public class AddressServiceImpl implements IAddressService {
                 user.setAddresses(addressDao.findByUid(user.getUid()));
                 //redis层做修改
                 jedis.set(token,JSONUtil.parseJSONString(user));
+                if(jedis!=null){
+                    jedisPool.returnResource(jedis);
+                }
                 return true;
+            }
+            if(jedis!=null){
+                jedisPool.returnResource(jedis);
             }
         }
         return false;
@@ -59,7 +71,13 @@ public class AddressServiceImpl implements IAddressService {
                 user.setAddresses(addressDao.findByUid(user.getUid()));
                 //redis层做修改
                 jedis.set(token,JSONUtil.parseJSONString(user));
+                if(jedis!=null){
+                    jedisPool.returnResource(jedis);
+                }
                 return true;
+            }
+            if(jedis!=null){
+                jedisPool.returnResource(jedis);
             }
         }
         return false;

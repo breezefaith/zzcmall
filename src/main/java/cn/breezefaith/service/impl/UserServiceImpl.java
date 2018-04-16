@@ -38,7 +38,9 @@ public class UserServiceImpl implements IUserService {
         Jedis jedis=jedisPool.getResource();
         jedis.set(token, JSONUtil.parseJSONString(user));
         jedis.expire(token, Cons.TOKEN_TIMEOUT_SECONDS);
-
+        if(jedis!=null){
+            jedisPool.returnResource(jedis);
+        }
         return token;
     }
 
@@ -46,7 +48,7 @@ public class UserServiceImpl implements IUserService {
     public String register(String username, String password, String phone, String email){
         try {
             if(userDao.register(username,password,phone,email)==0){
-                logger.info("register failed");
+//                logger.info("register failed");
                 return null;
             }else{
                 Jedis jedis=jedisPool.getResource();
@@ -57,8 +59,11 @@ public class UserServiceImpl implements IUserService {
                 user.setPassword(password);
                 user.setPhone(phone);
                 jedis.set(token,JSONUtil.parseJSONString(user));
-                logger.info(token);
-                logger.info(user);
+//                logger.info(token);
+//                logger.info(user);
+                if(jedis!=null){
+                    jedisPool.returnResource(jedis);
+                }
                 return token;
             }
         } catch (Exception e) {
@@ -96,7 +101,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User getPersonInfo(String token) throws IOException {
         Jedis jedis=jedisPool.getResource();
-        return (User)JSONUtil.parseObject(jedis.get(token),User.class);
+        User user=(User)JSONUtil.parseObject(jedis.get(token),User.class);
+        if(jedis!=null){
+            jedisPool.returnResource(jedis);
+        }
+        return user;
     }
 
     @Override
@@ -111,8 +120,14 @@ public class UserServiceImpl implements IUserService {
         }
         if(userDao.updatePersonInfo(user)==true){
             jedis.set(token,JSONUtil.parseJSONString(user));
+            if(jedis!=null){
+                jedisPool.returnResource(jedis);
+            }
             return true;
         }else{
+            if(jedis!=null){
+                jedisPool.returnResource(jedis);
+            }
             return false;
         }
     }
@@ -126,7 +141,13 @@ public class UserServiceImpl implements IUserService {
                 user.setPassword(newPassword);
                 if(userDao.updatePersonInfo(user)==true){
                     jedis.set(token,JSONUtil.parseJSONString(user));
+                    if(jedis!=null){
+                        jedisPool.returnResource(jedis);
+                    }
                     return true;
+                }
+                if(jedis!=null){
+                    jedisPool.returnResource(jedis);
                 }
             }
         }
@@ -138,6 +159,9 @@ public class UserServiceImpl implements IUserService {
         Jedis jedis=jedisPool.getResource();
         try {
             User user=(User)JSONUtil.parseObject(jedis.get(token),User.class);
+            if(jedis!=null){
+                jedisPool.returnResource(jedis);
+            }
             return user;
         }catch (Exception e){
             return null;
@@ -148,6 +172,9 @@ public class UserServiceImpl implements IUserService {
     public void logout(String token) {
         Jedis jedis=jedisPool.getResource();
         jedis.del(token);
+        if(jedis!=null){
+            jedisPool.returnResource(jedis);
+        }
     }
 
 }
