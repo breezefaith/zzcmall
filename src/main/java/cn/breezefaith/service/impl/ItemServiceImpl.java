@@ -120,4 +120,25 @@ public class ItemServiceImpl implements IItemService {
             }
         }
     }
+
+    @Override
+    public boolean deleteItem(String token, String itemId) {
+        Jedis jedis=jedisPool.getResource();
+        try{
+            if(jedis.get("cart"+token)==null){
+                return false;
+            }
+            List<Item> cart=JSONUtil.decode(jedis.get("cart"+token), new TypeReference<List<Item>>() {});
+            cart.remove(findById(itemId));
+            jedis.set("cart"+token,JSONUtil.parseJSONString(cart));
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }finally {
+            if(jedis!=null){
+                jedisPool.returnResource(jedis);
+            }
+        }
+    }
 }

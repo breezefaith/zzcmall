@@ -40,4 +40,25 @@ public class CartController extends AbstractController{
 
         response.getWriter().write(JSONUtil.parseJSONString(responseVo));
     }
+
+    @RequestMapping("deleteItem.do")
+    public void deleteItem(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+        ResponseVo responseVo=new ResponseVo();
+        String token=(String)session.getAttribute("token");
+        if(token!=null){
+            if(itemService.deleteItem(token,request.getParameter("itemId"))==true){
+                responseVo.setSuccess(true);
+                responseVo.setErrorCode(Cons.Request.REQUEST_SUCCESS_CODE);
+                responseVo.setMessage(Cons.Request.REQUEST_SUCCESS_MESSAGE);
+                responseVo.setData(null);
+            }
+        }else{
+            responseVo.setSuccess(true);
+            responseVo.setErrorCode(Cons.Request.REQUEST_SUCCESS_CODE);
+            responseVo.setMessage(Cons.Request.REQUEST_SUCCESS_MESSAGE);
+            responseVo.setData(null);
+        }
+
+        response.getWriter().write(JSONUtil.parseJSONString(responseVo));
+    }
 }

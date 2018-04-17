@@ -166,7 +166,7 @@
     });
     function deleteItem(obj) {
         var trSelected=$(obj).parent().parent();
-        var sub=parseFloat($(trSelected).children("td:eq(3)").text());
+        var sub=parseFloat($(trSelected).children("td:eq(2)").text());
         $.ajax({
             url:"deleteItem.do",
             type:"post",

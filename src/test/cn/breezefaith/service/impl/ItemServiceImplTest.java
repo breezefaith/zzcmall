@@ -1,6 +1,7 @@
 package cn.breezefaith.service.impl;
 
 import cn.breezefaith.service.IItemService;
+import cn.breezefaith.service.IUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,6 +14,9 @@ public class ItemServiceImplTest {
 
     @Resource(name = "itemService")
     private IItemService itemService;
+
+    @Resource(name = "userService")
+    private IUserService userService;
 
     @Test
     public void findAll() throws Exception {
@@ -42,5 +46,14 @@ public class ItemServiceImplTest {
     @Test
     public void addToCart() throws Exception{
 //        System.out.println(itemService.addToCart("1"));
+    }
+
+    @Test
+    public void deleteItem() throws Exception{
+//        String token=userService.login("admin","admin");
+//        System.out.println(itemService.addToCart(token,"1"));
+//        System.out.println(itemService.addToCart(token,"2"));
+//        System.out.println(itemService.deleteItem(token,"1"));
+//        userService.logout(token);
     }
 }

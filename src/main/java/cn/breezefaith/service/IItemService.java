@@ -20,4 +20,6 @@ public interface IItemService {
     boolean addToCart(String token, String itemId);
 
     List<Item> getCart(String token);
+
+    boolean deleteItem(String token, String itemId);
 }
