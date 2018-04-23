@@ -1,27 +1,21 @@
 package cn.breezefaith.service.impl;
 
 import cn.breezefaith.constant.Cons;
-import cn.breezefaith.dao.IUserDao;
+import cn.breezefaith.entity.Address;
 import cn.breezefaith.entity.User;
+import cn.breezefaith.service.AbstractService;
 import cn.breezefaith.service.IUserService;
 import cn.breezefaith.util.JSONUtil;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
-import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service("userService")
-public class UserServiceImpl implements IUserService {
-    @Resource(name="userDao")
-    private IUserDao userDao;
-
-    @Autowired
-    private JedisPool jedisPool;
+public class UserServiceImpl extends AbstractService implements IUserService {
 
     private static Logger logger=Logger.getLogger(UserServiceImpl.class);
 
@@ -175,6 +169,23 @@ public class UserServiceImpl implements IUserService {
         jedis.del("cart"+token);
         if(jedis!=null){
             jedisPool.returnResource(jedis);
+        }
+    }
+
+    @Override
+    public List<Address> getAddresses(String token){
+        Jedis jedis=jedisPool.getResource();
+        User user= null;
+        try {
+            user = (User) JSONUtil.parseObject(jedis.get(token),User.class);
+            return user.getAddresses();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }finally {
+            if(jedis!=null){
+                jedisPool.returnResource(jedis);
+            }
         }
     }
 

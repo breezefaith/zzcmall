@@ -2,10 +2,10 @@ package cn.breezefaith.entity;
 
 public class Record {
     private Integer rid;
-    private Integer uid;
-    private Integer iid;
-    private Integer aid;
-    private Integer amount;
+    private User user;
+    private Address address;
+    private Integer counts;
+    private Double cost;
     private String courierNumber;
 
     public Integer getRid() {
@@ -16,36 +16,36 @@ public class Record {
         this.rid = rid;
     }
 
-    public Integer getUid() {
-        return uid;
+    public User getUser() {
+        return user;
     }
 
-    public void setUid(Integer uid) {
-        this.uid = uid;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getIid() {
-        return iid;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setIid(Integer iid) {
-        this.iid = iid;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public Integer getAid() {
-        return aid;
+    public Integer getCounts() {
+        return counts;
     }
 
-    public void setAid(Integer aid) {
-        this.aid = aid;
+    public void setCounts(Integer counts) {
+        this.counts = counts;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Double getCost() {
+        return cost;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setCost(Double cost) {
+        this.cost = cost;
     }
 
     public String getCourierNumber() {
@@ -54,5 +54,17 @@ public class Record {
 
     public void setCourierNumber(String courierNumber) {
         this.courierNumber = courierNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Record{" +
+                "rid=" + rid +
+                ", user=" + user +
+                ", address=" + address +
+                ", counts=" + counts +
+                ", cost=" + cost +
+                ", courierNumber='" + courierNumber + '\'' +
+                '}';
     }
 }

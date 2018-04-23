@@ -46,7 +46,7 @@
                     </ul>
                 </li>
                 <li><a href="cart.do">购物车</a></li>
-                <li><a href="#">订单</a></li>
+                <li><a href="records.do">订单</a></li>
             </ul>
         </div>
         <div style="float:right;" class="login-state">

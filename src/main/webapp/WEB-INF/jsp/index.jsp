@@ -51,7 +51,7 @@
                     </ul>
                 </li>
                 <li><a href="cart.do">购物车</a></li>
-                <li><a href="#">订单</a></li>
+                <li><a href="records.do">订单</a></li>
             </ul>
         </div>
         <div style="float:right;" class="login-state">
@@ -93,22 +93,6 @@
                         </div>
                     </div>
                 <%}%>
-                <%--<div class="thumbnail">--%>
-                    <%--<img src="image/logo.png"--%>
-                         <%--alt="通用的占位符缩略图">--%>
-                    <%--<div class="caption">--%>
-                        <%--<h3>缩略图标签</h3>--%>
-                        <%--<p>一些示例文本。一些示例文本。dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>--%>
-                        <%--<p>--%>
-                            <%--<a href="#" class="btn btn-primary" role="button">--%>
-                                <%--按钮--%>
-                            <%--</a>--%>
-                            <%--<a href="#" class="btn btn-default" role="button">--%>
-                                <%--按钮--%>
-                            <%--</a>--%>
-                        <%--</p>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
         </div>
     </div>
     <div class="row-fluid">

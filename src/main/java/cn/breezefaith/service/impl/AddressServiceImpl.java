@@ -1,24 +1,16 @@
 package cn.breezefaith.service.impl;
 
-import cn.breezefaith.dao.IAddressDao;
 import cn.breezefaith.entity.User;
+import cn.breezefaith.service.AbstractService;
 import cn.breezefaith.service.IAddressService;
 import cn.breezefaith.util.JSONUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 
 @Service("addressService")
-public class AddressServiceImpl implements IAddressService {
-    @Resource(name = "addressDao")
-    private IAddressDao addressDao;
-
-    @Autowired
-    private JedisPool jedisPool;
+public class AddressServiceImpl extends AbstractService implements IAddressService {
 
     @Override
     public boolean deleteAddress(String token, Integer aid) throws IOException {

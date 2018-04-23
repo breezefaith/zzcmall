@@ -52,7 +52,7 @@
                     </ul>
                 </li>
                 <li><a href="cart.do">购物车</a></li>
-                <li><a href="#">订单</a></li>
+                <li><a href="records.do">订单</a></li>
             </ul>
         </div>
         <div style="float:right;" class="login-state">
@@ -106,7 +106,13 @@
                         </tr>
                         <tr>
                             <td colspan="3"></td>
-                            <td><button class="btn btn-primary" style="float: left;">结算</button></td>
+                            <td>
+                                <form action="checkOutPage.do">
+                                    <input type="hidden" name="counts" value=""/>
+                                    <input type="hidden" name="cost" value=""/>
+                                    <button class="btn btn-primary" style="float: left;" type="submit">结算</button>
+                                </form>
+                            </td>
                         </tr>
                     </tfoot>
                 </table>
@@ -163,6 +169,9 @@
 
             }
         });
+
+        $("form input[name='counts']").val(parseInt($("tfoot tr:first td:eq(1)").text()));
+        $("form input[name='cost']").val(parseFloat($("tfoot tr:first td:eq(2)").text()));
     });
     function deleteItem(obj) {
         var trSelected=$(obj).parent().parent();
@@ -178,14 +187,20 @@
                 if(response.success==true){
                     $(trSelected).remove();
                     var tds=$("tfoot tr:first");
-                    tds[1].html(parseInt(tds[1].text())-1);
-                    tds[2].html(parseFloat(tds[2].text())-sub);
+                    $(tds).children("td:eq(1)").html((parseInt($(tds).children("td:eq(1)").text())-1)+"件");
+                    $("table tfoot tr td:eq(2)").html(parseFloat(parseFloat($(tds).children("td:eq(2)").text())-sub)+"元")
+                    $("form input[name='counts']").val(parseInt($(tds).children("td:eq(1)").text()));
+                    $("form input[name='cost']").val(parseFloat($(tds).children("td:eq(2)").text()));
                 }
             },
             error:function (XMLHttpRequest,status) {
 
             }
         });
+    }
+
+    function checkOut(obj){
+        $("form").submit();
     }
 </script>
 

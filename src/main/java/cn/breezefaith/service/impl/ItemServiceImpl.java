@@ -1,8 +1,8 @@
 package cn.breezefaith.service.impl;
 
 import cn.breezefaith.constant.Cons;
-import cn.breezefaith.dao.IItemDao;
 import cn.breezefaith.entity.Item;
+import cn.breezefaith.service.AbstractService;
 import cn.breezefaith.service.IItemService;
 import cn.breezefaith.util.ImageUtil;
 import cn.breezefaith.util.JSONUtil;
@@ -12,14 +12,11 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service("itemService")
-public class ItemServiceImpl implements IItemService {
-    @Resource(name = "itemDao")
-    private IItemDao itemDao;
+public class ItemServiceImpl extends AbstractService implements IItemService {
 
     @Autowired
     private JedisPool jedisPool;
@@ -128,6 +125,7 @@ public class ItemServiceImpl implements IItemService {
             if(jedis.get("cart"+token)==null){
                 return false;
             }
+
             List<Item> cart=JSONUtil.decode(jedis.get("cart"+token), new TypeReference<List<Item>>() {});
             cart.remove(findById(itemId));
             jedis.set("cart"+token,JSONUtil.parseJSONString(cart));

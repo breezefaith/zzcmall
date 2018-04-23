@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.breezefaith.dao.IRecordDao">
+    <resultMap id="recordMap" type="cn.breezefaith.entity.Record">
+        <id column="rid" property="rid" javaType="java.lang.Integer"/>
+        <result column="counts" property="counts" javaType="java.lang.Integer"/>
+        <result column="cost" property="cost" javaType="java.lang.Double"/>
+        <result column="courier_number" property="courierNumber" javaType="java.lang.String"/>
+        <association property="user" javaType="cn.breezefaith.entity.User">
+            <id column="uid" property="uid" javaType="java.lang.Integer"/>
+            <result column="username" property="username" javaType="java.lang.String"/>
+            <result column="password" property="password" javaType="java.lang.String"/>
+            <result column="u_phone" property="phone" javaType="java.lang.String"/>
+            <result column="email" property="email" javaType="java.lang.String"/>
+        </association>
+        <association property="address" javaType="cn.breezefaith.entity.Address">
+            <id column="aid" property="aid" javaType="java.lang.Integer"/>
+            <result column="uid" property="uid" javaType="java.lang.Integer"/>
+            <result column="name" property="name" javaType="java.lang.String"/>
+            <result column="a_phone" property="phone" javaType="java.lang.String"/>
+            <result column="post_code" property="postCode" javaType="java.lang.String"/>
+            <result column="address" property="address" javaType="java.lang.String"/>
+        </association>
+        
+    </resultMap>
+
+    <select id="findById" resultMap="recordMap">
+        SELECT
+          record.rid,counts,cost,
+          record.uid,username,password,user.phone u_phone,email,
+          record.aid,name,address.phone a_phone,post_code,address.address
+        FROM
+          record,user,address
+        WHERE
+          rid=#{rid} AND record.uid=user.uid AND record.aid=address.aid
+    </select>
+
+    <select id="findAll" resultMap="recordMap">
+         SELECT
+          record.rid,counts,cost,
+          record.uid,username,password,user.phone u_phone,email,
+          record.aid,name,address.phone a_phone,post_code,address.address
+        FROM
+          record,user,address
+        WHERE
+          record.uid=user.uid AND record.aid=address.aid
+    </select>
+
+    <select id="findByUid" resultMap="recordMap">
+        SELECT
+          record.rid,counts,cost,
+          record.uid,username,password,user.phone u_phone,email,
+          record.aid,name,address.phone a_phone,post_code,address.address
+        FROM
+          record,user,address
+        WHERE
+          record.uid=user.uid AND record.aid=address.aid AND record.uid=#{uid}
+    </select>
+
+    <insert id="addOne">
+      INSERT INTO record
+      SET
+      uid=#{uid},aid=#{aid},counts=#{counts},cost=#{cost}
+    </insert>
+</mapper>

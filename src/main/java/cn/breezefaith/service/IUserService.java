@@ -1,8 +1,10 @@
 package cn.breezefaith.service;
 
+import cn.breezefaith.entity.Address;
 import cn.breezefaith.entity.User;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface IUserService {
     String login(String username, String password);
@@ -25,4 +27,5 @@ public interface IUserService {
 
     void logout(String token);
 
+    List<Address> getAddresses(String token);
 }

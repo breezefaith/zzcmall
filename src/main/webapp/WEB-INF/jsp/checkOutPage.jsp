@@ -1,8 +1,9 @@
-<%--
+<%@ page import="cn.breezefaith.entity.Address" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: breezefaith
-  Date: 2018/4/15
-  Time: 8:12
+  Date: 2018/4/21
+  Time: 8:49
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -10,7 +11,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>商品详情</title>
+    <title>结算</title>
     <link rel='stylesheet prefetch' href='css/bootstrap.min.css'>
     <link rel="stylesheet" href="css/login.css">
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -64,7 +65,49 @@
             </ul>
         </div>
         <div class="col-md-10">
-
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>数量</th>
+                            <th>金额</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#</td>
+                            <td><%=request.getAttribute("counts")%></td>
+                            <td><%=request.getAttribute("cost")%></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="1">
+                                <div class="form-group">
+                                    <label>收货地址：</label>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <select class="form-control" name="address">
+                                    <%
+                                        for (Address address:(List<Address>)request.getAttribute("addresses")){
+                                    %>
+                                    <option value="<%=address.getAid()%>"><%=address.getName()%>——<%=address.getPhone()%>——<%=address.getPostCode()%>——<%=address.getAddress()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <button class="btn btn-primary">支付</button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
     <div class="row-fluid">
@@ -117,6 +160,38 @@
             }
         });
     });
+
+    function pay(obj) {
+        var counts=$("tbody tr td:eq(1)").text();
+        var cost=$("tbody tr td:eq(2)").text()
+        var aid=$("tfoot tr select").val();
+        $.ajax({
+            url:"pay.do",
+            type:"post",
+            dataType:"json",
+            data:{
+                counts:counts,
+                cost:cost,
+                aid:aid
+            },
+            success:function (response,status) {
+                if(response.success==true){
+                    $("#modal-info div.modal-body").html("支付成功，3s后跳转至订单列表页...");
+                    $("#modal-info").modal('show');
+                    setTimeout(function () {
+                        window.location.href="records.do";
+                    },3000);
+                }else{
+                    $("#modal-info div.modal-body").html("支付失败");
+                    $("#modal-info").modal('show');
+                }
+            },
+            error:function (XMLHttpRequest,status) {
+
+            }
+        });
+    }
+
 </script>
 
 </body>

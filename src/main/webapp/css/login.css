@@ -1,5 +1,7 @@
 body {
   background: #eee !important;
+  padding-top: 60px;
+  padding-bottom: 30px;
 }
 
 .wrapper {
