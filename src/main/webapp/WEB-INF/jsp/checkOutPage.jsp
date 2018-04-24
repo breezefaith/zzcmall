@@ -102,7 +102,7 @@
                         </tr>
                         <tr>
                             <td colspan="3">
-                                <button class="btn btn-primary">支付</button>
+                                <button class="btn btn-primary" onclick="pay(this)">支付</button>
                             </td>
                         </tr>
                     </tfoot>
@@ -179,8 +179,9 @@
                     $("#modal-info div.modal-body").html("支付成功，3s后跳转至订单列表页...");
                     $("#modal-info").modal('show');
                     setTimeout(function () {
-                        window.location.href="records.do";
+
                     },3000);
+                    window.location.href="records.do";
                 }else{
                     $("#modal-info div.modal-body").html("支付失败");
                     $("#modal-info").modal('show');

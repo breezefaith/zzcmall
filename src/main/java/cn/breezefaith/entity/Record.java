@@ -7,6 +7,7 @@ public class Record {
     private Integer counts;
     private Double cost;
     private String courierNumber;
+    private String items;
 
     public Integer getRid() {
         return rid;
@@ -65,6 +66,16 @@ public class Record {
                 ", counts=" + counts +
                 ", cost=" + cost +
                 ", courierNumber='" + courierNumber + '\'' +
+                ", items='" + items + '\'' +
                 '}';
     }
+
+    public String getItems() {
+        return items;
+    }
+
+    public void setItems(String items) {
+        this.items = items;
+    }
+
 }

@@ -1,4 +1,8 @@
-<%--
+<%@ page import="cn.breezefaith.entity.Record" %>
+<%@ page import="java.util.List" %>
+<%@ page import="cn.breezefaith.util.JSONUtil" %>
+<%@ page import="com.fasterxml.jackson.core.type.TypeReference" %>
+<%@ page import="cn.breezefaith.entity.Item" %><%--
   Created by IntelliJ IDEA.
   User: breezefaith
   Date: 2018/4/15
@@ -56,15 +60,53 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="col-md-2">
-            <ul>
-                <li>百货</li>
-                <li>服饰</li>
-                <li>数码</li>
-            </ul>
-        </div>
-        <div class="col-md-10">
+        <%--<div class="col-md-1">--%>
+            <%--<ul>--%>
+                <%--<li>百货</li>--%>
+                <%--<li>服饰</li>--%>
+                <%--<li>数码</li>--%>
+            <%--</ul>--%>
+        <%--</div>--%>
+        <div class="col-md-12">
+            <div>
+                <table class="table table table-striped">
+                    <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>收件人</th>
+                            <th>联系电话</th>
+                            <th>收货地址</th>
+                            <th>邮编</th>
+                            <th>商品列表</th>
+                            <th>金额</th>
+                            <th>快递号</th>
+                        </tr>
+                    </thead>
 
+                    <tbody>
+                        <% for(Record record : (List<Record>)request.getAttribute("records")){%>
+                            <tr>
+                                <td><%=record.getRid()%></td>
+                                <td><%=record.getAddress().getName()%></td>
+                                <td><%=record.getAddress().getPhone()%></td>
+                                <td><%=record.getAddress().getAddress()%></td>
+                                <td><%=record.getAddress().getPostCode()%></td>
+                                <td>
+                                    <%for(Item item:(List<Item>)JSONUtil.decode(record.getItems(), new TypeReference<List<Item>>() {})){%>
+                                        <%=item.getItemName()%>,
+                                    <%}%>
+                                </td>
+                                <td><%=record.getCost()%></td>
+                                <td><a href="http://www.baidu.com"><%=record.getCourierNumber()%></a></td>
+                            </tr>
+                        <%}%>
+                    </tbody>
+
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
     <div class="row-fluid">

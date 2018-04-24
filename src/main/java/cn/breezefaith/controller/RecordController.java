@@ -13,7 +13,6 @@ public class RecordController extends AbstractController {
         if(token!=null){
             request.setAttribute("records",recordService.findByUser(token));
         }
-
         return "records";
     }
 }

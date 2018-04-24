@@ -107,7 +107,7 @@
                         <tr>
                             <td colspan="3"></td>
                             <td>
-                                <form action="checkOutPage.do">
+                                <form action="checkOutPage.do" method="post">
                                     <input type="hidden" name="counts" value=""/>
                                     <input type="hidden" name="cost" value=""/>
                                     <button class="btn btn-primary" style="float: left;" type="submit">结算</button>

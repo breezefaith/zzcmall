@@ -14,5 +14,5 @@ public interface IRecordDao {
 
     List<Record> findByUid(@Param("uid")Integer uid);
 
-    boolean addOne(@Param("uid") Integer uid, @Param("aid") Integer aid, @Param("counts") Integer counts, @Param("cost") Double cost);
+    boolean addOne(@Param("uid") Integer uid, @Param("aid") Integer aid, @Param("counts") Integer counts, @Param("cost") Double cost, @Param("items") String items);
 }

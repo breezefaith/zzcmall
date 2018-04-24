@@ -35,7 +35,10 @@ public class RecordServiceImpl extends AbstractService implements IRecordService
         Jedis jedis=jedisPool.getResource();
         try {
             User user=(User)JSONUtil.parseObject(jedis.get(token),User.class);
-            return recordDao.addOne(user.getUid(),aid,counts,cost);
+            //结算后清空购物车,并将购物车中数据存入数据库
+            String items=jedis.get("cart"+token);
+            jedis.del("cart"+token);
+            return recordDao.addOne(user.getUid(),aid,counts,cost,items);
         } catch (IOException e) {
             e.printStackTrace();
             return false;

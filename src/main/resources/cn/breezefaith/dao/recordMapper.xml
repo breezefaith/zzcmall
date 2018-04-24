@@ -6,6 +6,7 @@
         <result column="counts" property="counts" javaType="java.lang.Integer"/>
         <result column="cost" property="cost" javaType="java.lang.Double"/>
         <result column="courier_number" property="courierNumber" javaType="java.lang.String"/>
+        <result column="items" property="items" javaType="java.lang.String"/>
         <association property="user" javaType="cn.breezefaith.entity.User">
             <id column="uid" property="uid" javaType="java.lang.Integer"/>
             <result column="username" property="username" javaType="java.lang.String"/>
@@ -26,7 +27,7 @@
 
     <select id="findById" resultMap="recordMap">
         SELECT
-          record.rid,counts,cost,
+          record.rid,counts,cost,courier_number,items,
           record.uid,username,password,user.phone u_phone,email,
           record.aid,name,address.phone a_phone,post_code,address.address
         FROM
@@ -37,7 +38,7 @@
 
     <select id="findAll" resultMap="recordMap">
          SELECT
-          record.rid,counts,cost,
+          record.rid,counts,cost,courier_number,items,
           record.uid,username,password,user.phone u_phone,email,
           record.aid,name,address.phone a_phone,post_code,address.address
         FROM
@@ -48,7 +49,7 @@
 
     <select id="findByUid" resultMap="recordMap">
         SELECT
-          record.rid,counts,cost,
+          record.rid,counts,cost,courier_number,items,
           record.uid,username,password,user.phone u_phone,email,
           record.aid,name,address.phone a_phone,post_code,address.address
         FROM
@@ -60,6 +61,6 @@
     <insert id="addOne">
       INSERT INTO record
       SET
-      uid=#{uid},aid=#{aid},counts=#{counts},cost=#{cost}
+      uid=#{uid},aid=#{aid},counts=#{counts},cost=#{cost},items=#{items}
     </insert>
 </mapper>
