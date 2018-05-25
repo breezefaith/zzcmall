@@ -41,10 +41,10 @@ public class UserServiceImpl extends AbstractService implements IUserService {
     @Override
     public String register(String username, String password, String phone, String email){
         try {
-            if(userDao.register(username,password,phone,email)==0){
-//                logger.info("register failed");
+            if(userDao.register(username,password,phone,email)==0){//注册失败
                 return null;
             }else{
+                //注册成功，自动登录
                 Jedis jedis=jedisPool.getResource();
                 String token=UUID.randomUUID().toString();
                 User user=new User();
@@ -53,8 +53,6 @@ public class UserServiceImpl extends AbstractService implements IUserService {
                 user.setPassword(password);
                 user.setPhone(phone);
                 jedis.set(token,JSONUtil.parseJSONString(user));
-//                logger.info(token);
-//                logger.info(user);
                 if(jedis!=null){
                     jedisPool.returnResource(jedis);
                 }

@@ -12,6 +12,7 @@
         <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
         <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>-->
     </context:component-scan>
+    <context:component-scan base-package="cn.breezefaith.admin.controller"/>
 
     <mvc:annotation-driven />
     <!--避免IE执行AJAX时，返回JSON出现下载文件 -->

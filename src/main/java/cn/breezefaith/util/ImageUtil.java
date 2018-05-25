@@ -96,4 +96,27 @@ public class ImageUtil {
         }
     }
 
+    /**
+     * 将目标url的图片转化为byte数组
+     */
+    public static byte[] encodeImageToBytes(String imageUrl){
+        ByteArrayOutputStream outputStream = null;
+        try {
+            URL url=new URL(imageUrl);
+            BufferedImage bufferedImage = ImageIO.read(url);
+            outputStream = new ByteArrayOutputStream();
+            String imgType=imageUrl.substring(imageUrl.lastIndexOf(".")+1);
+            ImageIO.write(bufferedImage, imgType, outputStream);
+            return outputStream.toByteArray();// 返回字节数组
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+            return new byte[1];
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new byte[1];
+        } finally {
+
+        }
+
+    }
 }

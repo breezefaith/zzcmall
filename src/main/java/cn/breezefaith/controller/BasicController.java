@@ -21,7 +21,7 @@ public class BasicController extends AbstractController{
     }
     @RequestMapping("/index.do")
     public String index(HttpServletRequest request){
-        request.setAttribute("itemList",itemService.findAll());
+        request.setAttribute("itemList",itemService.findAllInRedis().subList(0,500));
         return "index";
     }
 
@@ -40,4 +40,27 @@ public class BasicController extends AbstractController{
         return "forget";
     }
 
+    @RequestMapping("/getImageInMySQL-page.do")
+    public String getImageInMySQLPage(HttpServletRequest request){
+        request.setAttribute("itemList",itemService.findAll());
+        return "getImageInMySQL-page";
+    }
+
+    @RequestMapping("/getImageInRedis-page.do")
+    public String getImageInRedisPage(HttpServletRequest request){
+        request.setAttribute("itemList",itemService.findAllInRedis());
+        return "getImageInRedis-page";
+    }
+
+    @RequestMapping("/getImageInURL-page.do")
+    public String getImageInURLPage(HttpServletRequest request){
+        request.setAttribute("itemList",itemService.findAllInRedis());
+        return "getImageInURL-page";
+    }
+
+    @RequestMapping("/getImageInURLDirectly-page.do")
+    public String getImageInURLDirectly(HttpServletRequest request){
+        request.setAttribute("itemList",itemService.findAll());
+        return "getImageInURLDirectly-page";
+    }
 }

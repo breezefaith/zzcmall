@@ -8,6 +8,8 @@ public class Item {
     private String itemImage;
     private Double itemPrice;
 
+    private String itemBytes;
+
     public Integer getIid() {
         return iid;
     }
@@ -56,16 +58,12 @@ public class Item {
         this.itemPrice = itemPrice;
     }
 
-    @Override
-    public String toString() {
-        return "Item{" +
-                "iid=" + iid +
-                ", itemName='" + itemName + '\'' +
-                ", itemCategory='" + itemCategory + '\'' +
-                ", itemDescription='" + itemDescription + '\'' +
-                ", itemImage='" + itemImage + '\'' +
-                ", itemPrice=" + itemPrice +
-                '}';
+    public String getItemBytes() {
+        return itemBytes;
+    }
+
+    public void setItemBytes(String itemBytes) {
+        this.itemBytes = itemBytes;
     }
 
     @Override
@@ -83,7 +81,8 @@ public class Item {
             return false;
         if (getItemImage() != null ? !getItemImage().equals(item.getItemImage()) : item.getItemImage() != null)
             return false;
-        return getItemPrice().equals(item.getItemPrice());
+        if (!getItemPrice().equals(item.getItemPrice())) return false;
+        return getItemBytes() != null ? getItemBytes().equals(item.getItemBytes()) : item.getItemBytes() == null;
     }
 
     @Override
@@ -94,6 +93,21 @@ public class Item {
         result = 31 * result + (getItemDescription() != null ? getItemDescription().hashCode() : 0);
         result = 31 * result + (getItemImage() != null ? getItemImage().hashCode() : 0);
         result = 31 * result + getItemPrice().hashCode();
+        result = 31 * result + (getItemBytes() != null ? getItemBytes().hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "iid=" + iid +
+                ", itemName='" + itemName + '\'' +
+                ", itemCategory='" + itemCategory + '\'' +
+                ", itemDescription='" + itemDescription + '\'' +
+                ", itemImage='" + itemImage + '\'' +
+                ", itemPrice=" + itemPrice +
+                ", itemBytes='" + itemBytes + '\'' +
+                '}';
+    }
+
 }

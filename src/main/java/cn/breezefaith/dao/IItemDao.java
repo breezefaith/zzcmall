@@ -12,4 +12,15 @@ public interface IItemDao {
 
     Item findById(@Param("itemId") String itemId);
 
+    int updateItems(List<Item> items);
+
+    int updateItem(@Param("item") Item item);
+
+    int itemCount();
+
+    boolean updateItemInfo(@Param("item")Item item);
+
+    boolean deleteItem(@Param("iid") String iid);
+
+    boolean addItem(@Param("item") Item item);
 }

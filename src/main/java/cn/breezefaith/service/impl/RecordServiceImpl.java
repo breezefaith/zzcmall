@@ -68,4 +68,16 @@ public class RecordServiceImpl extends AbstractService implements IRecordService
         }
 
     }
+
+    @Override
+    public boolean updateRecord(String rid, String courier) {
+        Record record=new Record();
+        record.setRid(Integer.valueOf(rid));
+        record.setCourierNumber(courier);
+        if(recordDao.updateRecord(record)==false){
+            return false;
+        }else {
+            return true;
+        }
+    }
 }

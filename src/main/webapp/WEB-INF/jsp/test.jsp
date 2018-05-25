@@ -41,7 +41,11 @@
             %>
             <div class='col-sm-6 col-md-3'>
                 <div class='thumbnail' >
-                    <img style='height: 30%;width: 90%;' src='getImage.do?itemId=<%=item.getIid()%>' alt='商品图片'>
+                    <%--<img style='height: 30%;width: 90%;' src='getImage.do?itemId=<%=item.getIid()%>' alt='商品图片'/>--%>
+                    <%--<img style='height: 30%;width: 90%;' src='getImageByUrl.do?url=<%=item.getItemImage()%>' alt='商品图片'/>--%>
+                    <%--<img style='height: 30%;width: 90%;' src='getImageInMySQL.do?iid=<%=item.getIid()%>' alt='商品图片'/>--%>
+                    <img style='height: 30%;width: 90%;' src='getImageInRedis.do?iid=<%=item.getIid()%>' alt='商品图片'/>
+
                     <div class='caption'>
                         <h4><%=item.getItemName()%></h4>
                         <p><%=item.getItemDescription()%></p>

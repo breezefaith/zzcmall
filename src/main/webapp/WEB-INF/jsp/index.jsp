@@ -74,11 +74,10 @@
 
                 <%
                 for (Item item:(List<Item>) request.getAttribute("itemList")){%>
-                    <%--<div class="col-sm-6 col-md-3">--%>
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail div-item" style="cursor:pointer;">
                             <input type="hidden" value="<%=item.getIid()%>">
-                            <img style="height: 30%;width: 90%;" src="<%=item.getItemImage()%>" alt="商品图片">
+                            <img style="height: 30%;width: 90%;" src="getImageInRedis.do?iid=<%=item.getIid()%>" alt="商品图片">
                             <div class="caption">
                                 <h4><%=item.getItemName()%></h4>
                                 <p>
@@ -92,7 +91,10 @@
                             </div>
                         </div>
                     </div>
-                <%}%>
+                <%
+                }
+                request.removeAttribute("itemList");
+                %>
         </div>
     </div>
     <div class="row-fluid">

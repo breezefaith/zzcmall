@@ -63,4 +63,11 @@
       SET
       uid=#{uid},aid=#{aid},counts=#{counts},cost=#{cost},items=#{items}
     </insert>
+
+    <update id="updateRecord">
+        UPDATE record
+        set courier_number=#{record.courierNumber}
+        WHERE
+          rid=#{record.rid}
+    </update>
 </mapper>

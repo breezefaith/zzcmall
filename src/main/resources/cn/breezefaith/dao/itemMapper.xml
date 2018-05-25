@@ -8,13 +8,85 @@
         <result property="itemDescription" column="item_description" javaType="java.lang.String"/>
         <result property="itemImage" column="item_image" javaType="java.lang.String"/>
         <result property="itemPrice" column="item_price" javaType="java.lang.Double"/>
+        <result property="itemBytes" column="item_bytes" javaType="java.lang.String"/>
     </resultMap>
 
-    <select id="findAll" resultMap="itemMap">
+    <resultMap id="itemMapWithoutItemBytes" type="cn.breezefaith.entity.Item">
+        <id property="iid" column="iid" javaType="java.lang.Integer"/>
+        <result property="itemName" column="item_name" javaType="java.lang.String"/>
+        <result property="itemCategory" column="item_category" javaType="java.lang.String"/>
+        <result property="itemDescription" column="item_description" javaType="java.lang.String"/>
+        <result property="itemImage" column="item_image" javaType="java.lang.String"/>
+        <result property="itemPrice" column="item_price" javaType="java.lang.Double"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="itemMapWithoutItemBytes">
         SELECT * FROM item
     </select>
+
 
     <select id="findById" resultMap="itemMap">
         SELECT * FROM item WHERE iid=#{itemId}
     </select>
+
+    <update id="updateItems" parameterType="java.util.List">
+        update item
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix=" item_bytes = case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    when iid = #{i.iid, jdbcType = INTEGER} then
+                    #{i.itemBytes, jdbcType=BLOB}
+                </foreach>
+            </trim>
+        </trim>
+        WHERE
+        <foreach collection="list" separator="or" item="i" index="index">
+            iid = #{i.iid}
+        </foreach>
+    </update>
+
+    <update id="updateItem" parameterType="cn.breezefaith.entity.Item">
+        UPDATE item SET
+        item_bytes=#{item.itemBytes, jdbcType=BLOB}
+        WHERE
+        iid=#{item.iid}
+    </update>
+
+    <select id="itemCount" resultType="integer">
+        SELECT COUNT (iid) FROM item
+    </select>
+
+    <update id="updateItemInfo" parameterType="cn.breezefaith.entity.Item">
+        UPDATE item
+        <set>
+            item_name=#{item.itemName},
+            item_category=#{item.itemCategory},
+            item_description=#{item.itemDescription},
+            item_image=#{item.itemImage},
+            item_price=#{item.itemPrice},
+            <if test="#{item.itemBytes!=null}">
+                item_bytes=#{item.itemBytes}
+            </if>
+        </set>
+
+        WHERE
+          iid=#{item.iid}
+    </update>
+
+    <delete id="deleteItem">
+        DELETE FROM item WHERE iid=#{iid}
+    </delete>
+
+    <insert id="addItem" useGeneratedKeys="true" keyProperty="item.iid">
+        INSERT INTO
+          item(item_name,item_category,item_description,item_image,item_price,item_bytes)
+        VALUES(
+            #{item.itemName},
+            #{item.itemCategory},
+            #{item.itemDescription},
+            #{item.itemImage},
+            #{item.itemPrice},
+            #{item.itemBytes}
+        )
+    </insert>
 </mapper>
